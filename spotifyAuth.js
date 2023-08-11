@@ -1,12 +1,17 @@
 const passport = require("passport");
 const SpotifyStrategy = require("passport-spotify").Strategy;
+const fs = require("fs");
+const path = require("path");
+
+const configPath = path.join(__dirname, "config.json");
+const config = JSON.parse(fs.readFileSync(configPath, "utf8")).spotify;
 
 passport.use(
   new SpotifyStrategy(
     {
-      clientID: "d74f393282a84360bca0f5449642c2da",
-      clientSecret: "9705457a44d5453a9b573775082675df",
-      callbackURL: "http://localhost:3000/callback",
+      clientID: config.clientID,
+      clientSecret: config.clientSecret,
+      callbackURL: config.callbackURL,
     },
     (accessToken, refreshToken, expires_in, profile, done) => {
       profile.accessToken = accessToken;
